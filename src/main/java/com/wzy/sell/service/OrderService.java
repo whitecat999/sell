@@ -15,7 +15,7 @@ public interface OrderService {
     OrderDTO create(OrderDTO orderDTO);
 
     /** 查询单个订单 */
-    OrderDTO findOne(String orderId);
+    OrderDTO findById(String orderId);
 
     /** 取消订单 */
     OrderDTO cancel(OrderDTO orderDTO);
