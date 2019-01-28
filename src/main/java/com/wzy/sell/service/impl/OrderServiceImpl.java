@@ -1,5 +1,6 @@
 package com.wzy.sell.service.impl;
 
+import com.wzy.sell.converter.OrderMaster2OrderDTOConverter;
 import com.wzy.sell.dataobject.OrderDetail;
 import com.wzy.sell.dataobject.OrderMaster;
 import com.wzy.sell.dataobject.ProductInfo;
@@ -12,9 +13,11 @@ import com.wzy.sell.repository.OrderMasterRespository;
 import com.wzy.sell.service.OrderService;
 import com.wzy.sell.service.ProductService;
 import com.wzy.sell.utils.KeyUtil;
+import org.hibernate.query.criteria.internal.OrderImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -108,7 +111,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<OrderDTO> findList(String buyerOpenid, Pageable pageable) {
-        return null;
+        Page<OrderMaster> orderMasterPage = orderMasterRespository.findByBuyerOpenid(buyerOpenid, pageable);
+        List<OrderDTO> orderDTOList = OrderMaster2OrderDTOConverter.convert(orderMasterPage.getContent());
+        return new PageImpl<OrderDTO>(orderDTOList, pageable, orderMasterPage.getTotalElements());
     }
 
     @Override
