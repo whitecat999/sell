@@ -2,6 +2,7 @@ package com.wzy.sell.service.impl;
 
 import com.wzy.sell.dataobject.OrderDetail;
 import com.wzy.sell.dto.OrderDTO;
+import com.wzy.sell.enums.OrderStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -86,5 +87,12 @@ public class OrderServiceImplTest {
         String[] intArr = {"1", "2", "3"};
         List<String> stringList = Arrays.asList(intArr);
         System.out.println(stringList.stream());
+    }
+
+    @Test
+    public void cancel() throws Exception {
+        OrderDTO orderDTO = orderService.findById(ORDER_ID);
+        OrderDTO result = orderService.cancel(orderDTO);
+        Assert.assertEquals(OrderStatusEnum.CANCEL.getCode(), result.getOrderStatus());
     }
 }
