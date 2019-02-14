@@ -16,4 +16,9 @@ public class ResultVOUtil {
         resultVO.setMsg("成功");
         return  resultVO;
     }
+
+    public static ResultVO success() {
+        return success(null);
+    }
+
 }

@@ -1,8 +1,11 @@
 package com.wzy.sell.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.wzy.sell.dataobject.OrderDetail;
 import com.wzy.sell.enums.OrderStatusEnum;
 import com.wzy.sell.enums.PayStatusEnum;
+import com.wzy.sell.serializer.Date2LongSerilaizer;
 import lombok.Data;
 
 import javax.persistence.Id;
@@ -17,6 +20,7 @@ import java.util.List;
  * @create: 2019-01-24 22:08
  **/
 @Data
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderDTO {
     /** 订单 */
     private String orderId;
@@ -43,9 +47,11 @@ public class OrderDTO {
     private Integer payStatus = PayStatusEnum.WAIT.getCode();
 
     /** 创建时间 */
+    @JsonSerialize(using = Date2LongSerilaizer.class)
     private Date createTime;
 
     /** 更新时间 */
+    @JsonSerialize(using = Date2LongSerilaizer.class)
     private Date updateTime;
 
     /** 订单详细 */
