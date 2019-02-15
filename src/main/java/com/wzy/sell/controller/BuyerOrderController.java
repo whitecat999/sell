@@ -6,6 +6,7 @@ import com.wzy.sell.dto.OrderDTO;
 import com.wzy.sell.enums.ResultEnum;
 import com.wzy.sell.exception.SellException;
 import com.wzy.sell.form.OrderForm;
+import com.wzy.sell.service.BuyerService;
 import com.wzy.sell.service.OrderService;
 import com.wzy.sell.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,9 @@ public class BuyerOrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private BuyerService buyerService;
 
     // 创建订单
     @PostMapping("/create")
@@ -73,8 +77,7 @@ public class BuyerOrderController {
     @GetMapping("/detail")
     public ResultVO<OrderDTO> detail(@RequestParam("openid") String openid,
                                      @RequestParam("orderId") String orderId) {
-        // TODO 不安全的做法
-        OrderDTO orderDTO = orderService.findById(orderId);
+        OrderDTO orderDTO = buyerService.findOrderOne(openid, orderId);
         return ResultVOUtil.success(orderDTO);
     }
 
@@ -83,8 +86,7 @@ public class BuyerOrderController {
 
     public ResultVO cancel(@RequestParam("openid") String openid,
                                   @RequestParam("orderId") String orderId) {
-        OrderDTO orderDTO = orderService.findById(orderId);
-        orderService.cancel(orderDTO);
+        buyerService.cancelOrder(openid, orderId);
         return ResultVOUtil.success();
     }
 }
